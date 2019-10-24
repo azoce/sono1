@@ -1,0 +1,32 @@
+import java.util.HashMap;
+ 
+class HashCodeSample2 {
+ int id;
+ 
+ HashCodeSample2(int id) {
+ this.id = id;
+ }
+ 
+ public boolean equals(Object obj) {
+ return id == ((HashCodeSample2) obj).id;
+ }
+ 
+ // Object.hashCodeをオーバーライドした。ごく単純に自分自身のintを戻す。
+ public int hashCode() {
+ return id;
+ }
+ 
+ public static void main(String[] args) {
+ HashCodeSample2 sample1 = new HashCodeSample2(1);
+ HashCodeSample2 sample2 = new HashCodeSample2(1);
+ 
+ System.out.println(sample1.equals(sample2)); // → true、sample1とsample2は意味的には同じ
+ System.out.println(sample1.hashCode()); // hashCodeの結果も同じになる(idを戻しているので)
+ System.out.println(sample2.hashCode());
+ 
+ HashMap<HashCodeSample2, String> hashMap = new HashMap<>(); // HashMapを作って…
+ hashMap.put(sample1, "猫"); // sample1をキーに値を設定して…
+ String value = hashMap.get(sample2); // 意味的に同じsample2で値を取り出すと…
+ System.out.println(value); // → "猫"、値がちゃんと取り出せた!!
+ }
+}
